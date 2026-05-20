@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BoviFertil-Pro | Google Sheets bilan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-logo"><img src="1.jpg"></div>
+      <div>
+        <b>Mahsuldor sigirlar</b>
+        <span>Alimentar bepushtlik xavfini baholash web ilovasi</span>
+      </div>
+    </div>
+    <nav>
+      <a href="#dashboard">Panel</a>
+      <a href="#form">Maʼlumot kiritish</a>
+      <a href="#report">Hisobot</a>
+      <a href="#settings">Google Sheets</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-text">
+      <div class="badge">Mahsuldor sigirlar reproduktiv monitoringi</div>
+      <h1>Mahsuldor sigirlarda alimentar bepushtlik xavfini baholash va profilaktik tavsiyalar beruvchi web ilova</h1>
+      <p>
+        Ilova sigirning oziqlanish holati, tana konditsiyasi, sut mahsuldorligi,
+        servis davri va urug‘lantirishlar soni asosida xavf darajasini hisoblaydi.
+        Natijalar lokal xotirada saqlanadi va Google Sheets jadvaliga yuboriladi.
+      </p>
+      <div class="hero-actions">
+        <a class="btn primary" href="#form">Yangi baholash boshlash</a>
+        <button class="btn ghost" id="demoBtn">Demo maʼlumot kiritish</button>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="mini-title">Bugungi monitoring</div>
+      <div class="risk-circle" id="heroRisk">0%</div>
+      <p id="heroRiskText">Hali baholash kiritilmagan</p>
+    </div>
+  </section>
+
+  <main class="container">
+    <section id="dashboard" class="grid dashboard">
+      <div class="stat-card">
+        <span class="icon">📋</span>
+        <p>Jami yozuvlar</p>
+        <h2 id="totalRecords">0</h2>
+      </div>
+      <div class="stat-card">
+        <span class="icon">🟢</span>
+        <p>Past xavf</p>
+        <h2 id="lowRecords">0</h2>
+      </div>
+      <div class="stat-card">
+        <span class="icon">🟡</span>
+        <p>O‘rta xavf</p>
+        <h2 id="midRecords">0</h2>
+      </div>
+      <div class="stat-card">
+        <span class="icon">🔴</span>
+        <p>Yuqori xavf</p>
+        <h2 id="highRecords">0</h2>
+      </div>
+    </section>
+
+    <section class="panel" id="form">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">1-bosqich</span>
+          <h2>Sigir elektron pasporti va diagnostik ko‘rsatkichlar</h2>
+          <p>Maydonlarni to‘ldiring. Ilova avtomatik xavf foizini va profilaktik tavsiyalarni shakllantiradi.</p>
+        </div>
+        <button class="btn soft" id="clearBtn">Formani tozalash</button>
+      </div>
+
+      <form id="cowForm" class="form-grid">
+        <label>Inventar raqam
+          <input name="inventory" required placeholder="Masalan: 0125">
+        </label>
+        <label>Zot
+          <select name="breed">
+            <option>Golshteyn</option>
+            <option>Simmental</option>
+            <option>Qora-ola</option>
+            <option>Shvits</option>
+            <option>Mahalliy zot</option>
+            <option>Boshqa</option>
+          </select>
+        </label>
+        <label>Yosh, yil
+          <input name="age" type="number" min="1" max="20" step="0.1" value="4">
+        </label>
+        <label>Tirik vazn, kg
+          <input name="weight" type="number" min="250" max="950" step="1" value="550">
+        </label>
+        <label>Kunlik sut, litr
+          <input name="milk" type="number" min="0" max="80" step="0.1" value="25">
+        </label>
+        <label>Laktatsiya kuni
+          <input name="lactationDay" type="number" min="1" max="450" value="70">
+        </label>
+        <label>Tana konditsiyasi, BCS
+          <select name="bcs">
+            <option value="1.5">1.5 - juda ozg‘in</option>
+            <option value="2">2.0 - ozg‘in</option>
+            <option value="2.5">2.5 - past</option>
+            <option value="3" selected>3.0 - meʼyor</option>
+            <option value="3.5">3.5 - yaxshi</option>
+            <option value="4">4.0 - semiz</option>
+            <option value="4.5">4.5 - juda semiz</option>
+          </select>
+        </label>
+        <label>Servis davri, kun
+          <input name="servicePeriod" type="number" min="0" max="300" value="85">
+        </label>
+        <label>Urug‘lantirishlar soni
+          <input name="inseminations" type="number" min="0" max="10" value="2">
+        </label>
+        <label>Kuyikish belgisi
+          <select name="heatSign">
+            <option value="normal">Aniq kuzatiladi</option>
+            <option value="weak">Sust / noaniq</option>
+            <option value="none">Kuzatilmayapti</option>
+          </select>
+        </label>
+        <label>Energiya taʼminoti
+          <select name="energy">
+            <option value="good">Yetarli</option>
+            <option value="medium">Qisman yetarli</option>
+            <option value="low">Yetishmaydi</option>
+          </select>
+        </label>
+        <label>Protein taʼminoti
+          <select name="protein">
+            <option value="good">Yetarli</option>
+            <option value="medium">Qisman yetarli</option>
+            <option value="low">Yetishmaydi</option>
+          </select>
+        </label>
+        <label>Mineral-vitamin qo‘shimcha
+          <select name="mineral">
+            <option value="regular">Doimiy beriladi</option>
+            <option value="sometimes">Baʼzan beriladi</option>
+            <option value="none">Berilmaydi</option>
+          </select>
+        </label>
+        <label>Yem-xashak sifati
+          <select name="feedQuality">
+            <option value="good">Yaxshi</option>
+            <option value="medium">O‘rtacha</option>
+            <option value="bad">Sifatsiz / mog‘orlangan xavf bor</option>
+          </select>
+        </label>
+        <label>Suv taʼminoti
+          <select name="water">
+            <option value="good">Yetarli va toza</option>
+            <option value="medium">Qisman cheklangan</option>
+            <option value="bad">Yetarli emas</option>
+          </select>
+        </label>
+        <label>Izoh
+          <textarea name="notes" placeholder="Masalan: tug‘ruqdan keyingi tiklanish sust, ratsionda premiks kam..."></textarea>
+        </label>
+
+        <div class="form-actions">
+          <button type="submit" class="btn primary">Hisoblash va saqlash</button>
+          <button type="button" id="sendLastBtn" class="btn success">Oxirgi yozuvni Google Sheets’ga yuborish</button>
+        </div>
+      </form>
+    </section>
+
+    <section id="report" class="panel report-panel">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">2-bosqich</span>
+          <h2>Diagnostik hisobot</h2>
+          <p>Bu qismda xavf foizi, asosiy sabablar va individual profilaktik tavsiyalar ko‘rsatiladi.</p>
+        </div>
+        <button class="btn soft" onclick="window.print()">Chop etish / PDF</button>
+      </div>
+      <div class="report-grid">
+        <div class="risk-box">
+          <div id="riskPercent">0%</div>
+          <b id="riskLevel">Baholanmagan</b>
+          <span id="riskDesc">Formani to‘ldirib hisoblang.</span>
+        </div>
+        <div>
+          <h3>Asosiy xavf omillari</h3>
+          <ul id="riskFactors"><li>Hali maʼlumot yo‘q.</li></ul>
+        </div>
+        <div>
+          <h3>Profilaktik tavsiyalar</h3>
+          <ul id="recommendations"><li>Hali maʼlumot yo‘q.</li></ul>
+        </div>
+        <div>
+          <h3>Reproduktiv kalendar</h3>
+          <ul id="calendarList"><li>Hali maʼlumot yo‘q.</li></ul>
+        </div>
+      </div>
+      <div class="toast" id="statusBox">Tizim tayyor.</div>
+    </section>
+
+    <section id="records" class="panel">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">3-bosqich</span>
+          <h2>Lokal yozuvlar ro‘yxati</h2>
+          <p>Bu jadval brauzer xotirasida saqlangan baholashlarni ko‘rsatadi.</p>
+        </div>
+        <div class="button-row">
+          <button class="btn soft" id="exportCsvBtn">CSV yuklab olish</button>
+          <button class="btn danger" id="deleteAllBtn">Lokal yozuvlarni o‘chirish</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Sana</th>
+              <th>Inventar</th>
+              <th>Zot</th>
+              <th>Sut</th>
+              <th>BCS</th>
+              <th>Xavf</th>
+              <th>Google Sheets</th>
+            </tr>
+          </thead>
+          <tbody id="recordsBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="settings" class="panel settings">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Google Sheets sozlamasi</span>
+          <h2>Google Apps Script Web App URL manzilini kiriting</h2>
+          <p>
+            <b>google-apps-script.gs</b> faylidagi kodni Google Apps Script’ga joylang,
+            Web App sifatida deploy qiling va URL manzilni shu yerga kiriting.
+          </p>
+        </div>
+      </div>
+      <label>Google Apps Script Web App URL
+        <input id="scriptUrl" placeholder="https://script.google.com/macros/s/AKfycb.../exec">
+      </label>
+      <div class="form-actions">
+        <button class="btn primary" id="saveUrlBtn">URL saqlash</button>
+        <button class="btn success" id="sendAllBtn">Yuborilmaganlarni Sheets’ga yuborish</button>
+      </div>
+      <div class="guide">
+        <h3>Google Sheets ustunlari avtomatik yaratiladi</h3>
+        <p>
+          Jadvalga sana, inventar raqam, zot, yosh, vazn, sut, laktatsiya kuni,
+          BCS, servis davri, urug‘lantirishlar soni, ratsion holati, xavf foizi,
+          xavf darajasi, xavf omillari va tavsiyalar yoziladi.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    BoviFertil-Pro © Mahsuldor sigirlarda alimentar bepushtlik profilaktikasi uchun raqamli monitoring tizimi
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
